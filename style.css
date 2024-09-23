@@ -1,0 +1,41 @@
+:root {
+    --board-width: 400px;
+    --tile-width: calc(var(--game-board-width) / 4);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: var(--board-width);
+    height: var(--board-width);
+}
+
+.tile {
+    background-color: rgba(145, 6, 110, 0.434);
+    border: 1px solid;
+    width: var(--tile-width);
+    height: var(--tile-width);
+    
+    /*Center Tile Number*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    cursor: default;
+}
