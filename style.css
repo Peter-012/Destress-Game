@@ -19,7 +19,7 @@ body {
     align-items: center;
 }
 
-.board {
+#board {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     width: var(--board-width);

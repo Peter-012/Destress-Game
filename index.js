@@ -1,12 +1,59 @@
+const board = document.querySelector('#board');
+
 const boardSize = 4;
-boardArray = [];
+let boardArray = [];
 
 for (let i=0; i<boardSize**2; i++) {
     boardArray.push(i);
 }
 
+function loadImage() {
+    const canvas = document.querySelector('#canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = board.offsetWidth;
+    canvas.height = board.offsetHeight;
+
+    const image = new Image();
+    image.src = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
+    let imageWidth = image.width;
+    let imageHeight = image.height;
+
+    let cropDiff = 0
+    let sx = 0; sy = 0; sWidth = 0; sHeight = 0;
+    if (imageWidth > imageHeight) {
+        cropDiff = imageWidth - imageHeight;
+        sx = cropDiff / 2;
+        sWidth = imageHeight;
+        sHeight = imageHeight;
+    } else {
+        cropDiff = imageHeight - imageWidth;
+        sy = cropDiff / 2;
+        sWidth = imageWidth;
+        sHeight = imageWidth;
+    }
+
+    console.log(sx);
+    console.log(sy);
+    console.log(sWidth);
+    console.log(cropDiff);
+
+    // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+
+    image.addEventListener("load", (e) => {
+        ctx.drawImage(image, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
+    });
+}
+loadImage();
+
+
+//resize to match size of puzzle
+//crop by focusing at center
+//partition to small images in tiles
+
+
+
 function printBoardArray() {
-    output = ""
+    let output = ""
     for (i=0; i<boardArray.length; i++) {
         output += boardArray[i] + " ";
     }
@@ -14,14 +61,12 @@ function printBoardArray() {
 }
 
 function refreshBoard() {
-    const board = document.querySelector('.board');
-
     while (board.firstChild) {
         board.removeChild(board.firstChild);
     }
 
     for (i=0;i<boardArray.length;i++) {
-        number = parseInt(boardArray[i]) + 1;
+        let number = parseInt(boardArray[i]) + 1;
         const tile = document.createElement('div');
         tile.classList.add('tile');
         tile.id = "tile_" + number;
@@ -31,30 +76,29 @@ function refreshBoard() {
 }
 
 function adjacentTiles() {
-    emptyTileIndex = boardArray.indexOf(15);
-    moves = [-1, -1, -1, -1];
+    let emptyTileIndex = boardArray.indexOf(15);
+    let moves = [-1, -1, -1, -1];
 
-    upTile = emptyTileIndex - boardSize;
+    let upTile = emptyTileIndex - boardSize;
     if (upTile < 0) {
         upTile = -1;
     }
 
-    downTile = emptyTileIndex + boardSize;
+    let downTile = emptyTileIndex + boardSize;
     if (downTile >= boardSize**2) {
         downTile = -1;
     }
 
-    leftTile = emptyTileIndex - 1;
+    let leftTile = emptyTileIndex - 1;
     if ((leftTile + 1) % boardSize == 0) {
         leftTile = -1;
     }
 
-    rightTile = emptyTileIndex + 1;
+    let rightTile = emptyTileIndex + 1;
     if (rightTile % boardSize == 0) {
         rightTile = -1;
     }
 
-    console.log(leftTile)
     return [leftTile, rightTile, upTile, downTile];
 }
 
@@ -62,7 +106,7 @@ function enableTiles(moves) {
     for (i=0;i<4;i++) {
         if (moves[i] == -1) continue;
 
-        tile_id = '#tile_' + (parseInt(moves[i]) + 1);
+        let tile_id = '#tile_' + (parseInt(moves[i]) + 1);
         const moveableTile = document.querySelector(tile_id);
 
         moveableTile.addEventListener('click', function() {
@@ -83,11 +127,9 @@ function resetTiles() {
 }
 
 function swapTiles(tile) {
-    clickedTile = tile.id.split("_")[1];
-    clickedTleIndex = boardArray.indexOf(parseInt(clickedTile) - 1);
-    emptyTileIndex = boardArray.indexOf(16 - 1);
-
-    console.log(clickedTile);
+    let clickedTile = tile.id.split("_")[1];
+    let clickedTleIndex = boardArray.indexOf(parseInt(clickedTile) - 1);
+    let emptyTileIndex = boardArray.indexOf(16 - 1);
     
     [boardArray[emptyTileIndex], boardArray[clickedTleIndex]] = 
         [boardArray[clickedTleIndex], boardArray[emptyTileIndex]];
