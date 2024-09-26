@@ -2,12 +2,20 @@ const board = document.querySelector('#board');
 
 const boardSize = 4;
 let boardArray = [];
+let tileCoord = [];
 
 for (let i=0; i<boardSize**2; i++) {
     boardArray.push(i);
 }
 
+for (let i=0; i<4; i++) {
+    for (let j=0; j<4; j++) {
+        tileCoord.push([j, i]);
+    }
+}
+
 function loadImage(tile_id) {
+    const tile_number = parseInt(tile_id.split("_")[1]) - 1;
     const tile = document.querySelector('#' + tile_id);
     const canvas = tile.firstChild;
     const ctx = canvas.getContext('2d');
@@ -17,29 +25,41 @@ function loadImage(tile_id) {
     let imageWidth = image.width;
     let imageHeight = image.height;
 
+    // Fit full image to the board
     let cropDiff = 0
     let sx = 0; sy = 0; sWidth = 0; sHeight = 0;
     if (imageWidth > imageHeight) {
         cropDiff = imageWidth - imageHeight;
-        sx = cropDiff / 2;
+        sx = Math.floor(cropDiff / 2);
         sWidth = imageHeight;
         sHeight = imageHeight;
     } else {
         cropDiff = imageHeight - imageWidth;
-        sy = cropDiff / 2;
+        sy = Math.floor(cropDiff / 2);
         sWidth = imageWidth;
         sHeight = imageWidth;
     }
 
-    // console.log(sx);
-    // console.log(sy);
-    // console.log(sWidth);
-    // console.log(cropDiff);
+    // Partition the image
+    let tileLength = Math.floor(sWidth / boardSize);
+    [x,y] = tileCoord[tile_number];
 
-    // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+    console.log("-----------------------");
+    console.log("Coord: ",x,y);
+    // [x,y] = [0,1];
 
+    sx += tileLength * x;
+    sy += tileLength * y;
+    console.log("TileLength = ", tileLength);
+    console.log(image.width);
+    console.log(image.height);
+    console.log("X Offset = ", tileLength * x);
+    console.log("Y Offset = ", tileLength * y);
+    console.log("Source Coord: ", sx,sy);
+
+    // Draw tile image
     image.addEventListener("load", (e) => {
-        ctx.drawImage(image, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, sx, sy, tileLength, tileLength, 0, 0, canvas.width, canvas.height);
     });
 }
 //loadImage();
