@@ -40,30 +40,30 @@ function loadImage(tile_id) {
         sHeight = imageWidth;
     }
 
-    // Partition the image
-    let tileLength = Math.floor(sWidth / boardSize);
-    [x,y] = tileCoord[tile_number];
+    
+    
 
-    console.log("-----------------------");
-    console.log("Coord: ",x,y);
-    // [x,y] = [0,1];
-
-    sx += tileLength * x;
-    sy += tileLength * y;
-    console.log("TileLength = ", tileLength);
-    console.log(image.width);
-    console.log(image.height);
-    console.log("X Offset = ", tileLength * x);
-    console.log("Y Offset = ", tileLength * y);
-    console.log("Source Coord: ", sx,sy);
+    
 
     // Draw tile image
     image.addEventListener("load", (e) => {
+        // Partition the image
+        let tileLength = Math.floor(sWidth / boardSize);
+        [x,y] = tileCoord[tile_number];
+
+        sx += tileLength * x;
+        sy += tileLength * y;
+
+        console.log("-----------------------");
+        console.log("Coord: ",x,y);
+        console.log("TileLength = ", tileLength);
+        console.log("X Offset = ", tileLength * x);
+        console.log("Y Offset = ", tileLength * y);
+        console.log("Source Coord: ", sx,sy);
+
         ctx.drawImage(image, sx, sy, tileLength, tileLength, 0, 0, canvas.width, canvas.height);
     });
 }
-//loadImage();
-
 
 //resize to match size of puzzle
 //crop by focusing at center
@@ -89,13 +89,10 @@ function refreshBoard() {
         const tile = document.createElement('div');
         tile.classList.add('tile');
         tile.id = "tile_" + number;
-        // tile.textContent = number;
         board.append(tile);
 
         const canvas = document.createElement('canvas');
         canvas.classList.add('canvas');
-        // canvas.width = tile.offsetWidth;
-        // canvas.height = tile.offsetWidth;
         tile.append(canvas);
         loadImage(tile.id);
     }
