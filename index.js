@@ -7,11 +7,10 @@ for (let i=0; i<boardSize**2; i++) {
     boardArray.push(i);
 }
 
-function loadImage() {
-    const canvas = document.querySelector('#canvas');
+function loadImage(tile_id) {
+    const tile = document.querySelector('#' + tile_id);
+    const canvas = tile.firstChild;
     const ctx = canvas.getContext('2d');
-    canvas.width = board.offsetWidth;
-    canvas.height = board.offsetHeight;
 
     const image = new Image();
     image.src = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
@@ -32,10 +31,10 @@ function loadImage() {
         sHeight = imageWidth;
     }
 
-    console.log(sx);
-    console.log(sy);
-    console.log(sWidth);
-    console.log(cropDiff);
+    // console.log(sx);
+    // console.log(sy);
+    // console.log(sWidth);
+    // console.log(cropDiff);
 
     // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 
@@ -43,7 +42,7 @@ function loadImage() {
         ctx.drawImage(image, sx, sy, sWidth, sHeight, 0, 0, canvas.width, canvas.height);
     });
 }
-loadImage();
+//loadImage();
 
 
 //resize to match size of puzzle
@@ -70,14 +69,20 @@ function refreshBoard() {
         const tile = document.createElement('div');
         tile.classList.add('tile');
         tile.id = "tile_" + number;
-        tile.textContent = number;
+        // tile.textContent = number;
         board.append(tile);
+
+        const canvas = document.createElement('canvas');
+        canvas.classList.add('canvas');
+        // canvas.width = tile.offsetWidth;
+        // canvas.height = tile.offsetWidth;
+        tile.append(canvas);
+        loadImage(tile.id);
     }
 }
 
 function adjacentTiles() {
     let emptyTileIndex = boardArray.indexOf(15);
-    let moves = [-1, -1, -1, -1];
 
     let upTile = emptyTileIndex - boardSize;
     if (upTile < 0) {
