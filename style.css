@@ -27,9 +27,6 @@ body {
 }
 
 .tile {
-    /* background-color: rgba(145, 6, 110, 0.434); */
-    /* border: 1px solid; */
-    /* margin: 1px; */
     width: var(--tile-width);
     height: var(--tile-width);
     

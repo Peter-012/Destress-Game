@@ -4,19 +4,25 @@ const boardSize = 4;
 let boardArray = [];
 let tileCoord = [];
 
+const enableImageTiles = true;
+
 for (let i=0; i<boardSize**2; i++) {
     boardArray.push(i);
 }
 
-for (let i=0; i<4; i++) {
-    for (let j=0; j<4; j++) {
+for (let i=0; i<boardSize; i++) {
+    for (let j=0; j<boardSize; j++) {
         tileCoord.push([j, i]);
     }
 }
 
 function loadImage(tile_id) {
     const tile_number = parseInt(tile_id.split("_")[1]) - 1;
+    if (tile_number === boardArray.length - 1) return;
+
     const tile = document.querySelector('#' + tile_id);
+    tile.style.margin = '1px'
+
     const canvas = tile.firstChild;
     const ctx = canvas.getContext('2d');
 
@@ -40,35 +46,27 @@ function loadImage(tile_id) {
         sHeight = imageWidth;
     }
 
-    
-    
+    // Partition the image
+    let tileLength = Math.floor(sWidth / boardSize);
+    [x,y] = tileCoord[tile_number];
 
-    
+    sx += tileLength * x;
+    sy += tileLength * y;
 
     // Draw tile image
-    image.addEventListener("load", (e) => {
-        // Partition the image
-        let tileLength = Math.floor(sWidth / boardSize);
-        [x,y] = tileCoord[tile_number];
-
-        sx += tileLength * x;
-        sy += tileLength * y;
-
-        console.log("-----------------------");
-        console.log("Coord: ",x,y);
-        console.log("TileLength = ", tileLength);
-        console.log("X Offset = ", tileLength * x);
-        console.log("Y Offset = ", tileLength * y);
-        console.log("Source Coord: ", sx,sy);
-
-        ctx.drawImage(image, sx, sy, tileLength, tileLength, 0, 0, canvas.width, canvas.height);
-    });
+    ctx.drawImage(image, sx, sy, tileLength, tileLength, 0, 0, canvas.width, canvas.height);
 }
 
-//resize to match size of puzzle
-//crop by focusing at center
-//partition to small images in tiles
+function loadNumber(tile_id) {
+    const tile_number = parseInt(tile_id.split("_")[1]) - 1;
+    if (tile_number === boardArray.length - 1) return;
 
+    const tile = document.querySelector('#' + tile_id);
+    tile.textContent = tile_number;
+    tile.style.backgroundColor = 'rgba(145, 6, 110, 0.434)';
+    tile.style.border = '1px solid'
+    tile.style.margin = '1px'
+}
 
 
 function printBoardArray() {
@@ -94,12 +92,17 @@ function refreshBoard() {
         const canvas = document.createElement('canvas');
         canvas.classList.add('canvas');
         tile.append(canvas);
-        loadImage(tile.id);
+
+        if (enableImageTiles) {
+            loadImage(tile.id);
+        } else {
+            loadNumber(tile.id);
+        }
     }
 }
 
 function adjacentTiles() {
-    let emptyTileIndex = boardArray.indexOf(15);
+    let emptyTileIndex = boardArray.indexOf(boardArray.length - 1);
 
     let upTile = emptyTileIndex - boardSize;
     if (upTile < 0) {
@@ -125,7 +128,7 @@ function adjacentTiles() {
 }
 
 function enableTiles(moves) {
-    for (i=0;i<4;i++) {
+    for (i=0;i<boardSize;i++) {
         if (moves[i] == -1) continue;
 
         let tile_id = '#tile_' + (parseInt(moves[i]) + 1);
@@ -143,15 +146,10 @@ function enableTiles(moves) {
     }
 }
 
-function resetTiles() {
-    refreshBoard();
-    enableTiles(adjacentTiles());
-}
-
 function swapTiles(tile) {
     let clickedTile = tile.id.split("_")[1];
     let clickedTleIndex = boardArray.indexOf(parseInt(clickedTile) - 1);
-    let emptyTileIndex = boardArray.indexOf(16 - 1);
+    let emptyTileIndex = boardArray.indexOf(boardArray.length - 1);
     
     [boardArray[emptyTileIndex], boardArray[clickedTleIndex]] = 
         [boardArray[clickedTleIndex], boardArray[emptyTileIndex]];
@@ -159,7 +157,10 @@ function swapTiles(tile) {
     resetTiles();
 }
 
-
+function resetTiles() {
+    refreshBoard();
+    enableTiles(adjacentTiles());
+}
 
 resetTiles();
 
