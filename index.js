@@ -1,21 +1,30 @@
-const board = document.querySelector('#board');
+let board = document.querySelector('#board');
 
-const boardSize = 4;
+let boardSize = 3;
 let boardArray = [];
 let tileCoord = [];
 
-const enableImageTiles = true;
+let scrambleEnabled = true;
+const scrambleIteration = 250;
+let enableImageTiles = true;
 
-for (let i=0; i<boardSize**2; i++) {
-    boardArray.push(i);
-}
+function scrambleBoard() {
+    for (let i=0; i<scrambleIteration; i++) {
+        let moves = adjacentTiles();
+        let validMoves = [];
 
-for (let i=0; i<boardSize; i++) {
-    for (let j=0; j<boardSize; j++) {
-        tileCoord.push([j, i]);
+        for (let i=0; i<moves.length; i++) {
+            if (moves[i] != (-1)) {
+                validMoves.push(moves[i]);
+            }
+        }
+
+        let moveIndex = Math.floor(Math.random() * validMoves.length);
+        swapTiles(validMoves[moveIndex]);
     }
 }
 
+// Use image tiles rather than numbers
 function loadImage(tile_id) {
     const tile_number = parseInt(tile_id.split("_")[1]) - 1;
     if (tile_number === boardArray.length - 1) return;
@@ -57,18 +66,19 @@ function loadImage(tile_id) {
     ctx.drawImage(image, sx, sy, tileLength, tileLength, 0, 0, canvas.width, canvas.height);
 }
 
+// Use number tiles instead of images for tiles
 function loadNumber(tile_id) {
     const tile_number = parseInt(tile_id.split("_")[1]) - 1;
     if (tile_number === boardArray.length - 1) return;
 
     const tile = document.querySelector('#' + tile_id);
-    tile.textContent = tile_number;
+    tile.textContent = tile_number + 1;
     tile.style.backgroundColor = 'rgba(145, 6, 110, 0.434)';
     tile.style.border = '1px solid'
     tile.style.margin = '1px'
 }
 
-
+// Print board array [For debugging]
 function printBoardArray() {
     let output = ""
     for (i=0; i<boardArray.length; i++) {
@@ -78,10 +88,17 @@ function printBoardArray() {
 }
 
 function refreshBoard() {
+    // Remove all event listeners
+    // let newBoard = board.cloneNode(true);
+    // board.parentNode.replaceChild(newBoard, board);
+    // board = newBoard;
+
+    // Delete all tiles from the board
     while (board.firstChild) {
         board.removeChild(board.firstChild);
     }
 
+    // From the record of boardArray, redraw the tiles
     for (i=0;i<boardArray.length;i++) {
         let number = parseInt(boardArray[i]) + 1;
         const tile = document.createElement('div');
@@ -101,6 +118,7 @@ function refreshBoard() {
     }
 }
 
+// Determine which tiles are valid to select
 function adjacentTiles() {
     let emptyTileIndex = boardArray.indexOf(boardArray.length - 1);
 
@@ -124,18 +142,25 @@ function adjacentTiles() {
         rightTile = -1;
     }
 
+    console.log("Left:", leftTile, "Right:", rightTile, "Up:", upTile, "Down:", downTile);
+
     return [leftTile, rightTile, upTile, downTile];
 }
 
+// Enable click function for movable adjacent tiles
 function enableTiles(moves) {
     for (i=0;i<boardSize;i++) {
+        // Ignore invalid moves
         if (moves[i] == -1) continue;
 
         let tile_id = '#tile_' + (parseInt(moves[i]) + 1);
         const moveableTile = document.querySelector(tile_id);
 
         moveableTile.addEventListener('click', function() {
-            swapTiles(moveableTile);
+            clickedTile = parseInt(moveableTile.id.split("_")[1]) - 1;
+            clickedTileIndex = boardArray.indexOf(clickedTile);
+            console.log(clickedTile, clickedTileIndex);
+            swapTiles(clickedTileIndex);
         });
         moveableTile.addEventListener('mouseover', function() {
             moveableTile.style.cursor = "pointer";
@@ -146,28 +171,52 @@ function enableTiles(moves) {
     }
 }
 
-function swapTiles(tile) {
-    let clickedTile = tile.id.split("_")[1];
-    let clickedTleIndex = boardArray.indexOf(parseInt(clickedTile) - 1);
+// If tile is selected, swap tile with blank tile space
+function swapTiles(clickedTileIndex) {
     let emptyTileIndex = boardArray.indexOf(boardArray.length - 1);
     
-    [boardArray[emptyTileIndex], boardArray[clickedTleIndex]] = 
-        [boardArray[clickedTleIndex], boardArray[emptyTileIndex]];
+    console.log("Empty:", emptyTileIndex, "Clicked:", clickedTileIndex);
+
+    [boardArray[emptyTileIndex], boardArray[clickedTileIndex]] = 
+        [boardArray[clickedTileIndex], boardArray[emptyTileIndex]];
+
     printBoardArray();
+
+    if (scrambleEnabled) return;
+
     resetTiles();
 }
 
 function resetTiles() {
     refreshBoard();
-    enableTiles(adjacentTiles());
+    moves = adjacentTiles();
+    enableTiles(moves);
 }
 
-resetTiles();
+function main() {
+    // CSS - Set dimension of puzzle
+    document.querySelector(':root').style.setProperty('--tile-length-count', boardSize);
 
+    // Set board tiles
+    for (let i=0; i<boardSize**2; i++) {
+        boardArray.push(i);
+    }
+    
+    // Set coordinates for board to reference off of
+    for (let i=0; i<boardSize; i++) {
+        for (let j=0; j<boardSize; j++) {
+            tileCoord.push([j, i]);
+        }
+    }
+
+    if (scrambleEnabled) {
+        scrambleBoard();
+        scrambleEnabled = false;
+    }
+    resetTiles();
+}
+main();
+
+// Notes:
 // Determine which tiles can be selected (tiles around #tile_0)
 // arr[X*(cols)+Y]
-
-
-
-
-

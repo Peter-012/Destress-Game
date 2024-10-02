@@ -1,6 +1,7 @@
 :root {
+    --tile-length-count: 4;
     --board-width: 400px;
-    --tile-width: calc(var(--game-board-width) / 4);
+    --tile-width: calc(var(--game-board-width) / var(--tile-length-count));
 }
 
 * {
@@ -21,7 +22,7 @@ body {
 
 #board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(var(--tile-length-count), 1fr);
     width: var(--board-width);
     height: var(--board-width);
 }
