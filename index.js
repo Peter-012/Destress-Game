@@ -9,8 +9,27 @@ let boardArray = [];
 let tileCoord = [];
 
 const scrambleIteration = 250;
-let scrambleEnabled = false;
+let scrambleEnabled = true;
 let enableImageTiles = true;
+
+function setupGame() {
+    // CSS - Set dimension of puzzle
+    document.querySelector(':root').style.setProperty('--tile-length-count', boardSize);
+
+    // Set board tiles
+    boardArray = [];
+    for (let i=0; i<boardSize**2; i++) {
+        boardArray.push(i);
+    }
+    
+    // Set coordinates for board to reference off of
+    tileCoord = [];
+    for (let i=0; i<boardSize; i++) {
+        for (let j=0; j<boardSize; j++) {
+            tileCoord.push([j, i]);
+        }
+    }
+}
 
 function scrambleBoard() {
     for (let i=0; i<scrambleIteration; i++) {
@@ -226,27 +245,29 @@ function resetTileEvents() {
     enableTiles(moves);
 }
 
-function main() {
-    // CSS - Set dimension of puzzle
-    document.querySelector(':root').style.setProperty('--tile-length-count', boardSize);
-
-    // Set board tiles
-    for (let i=0; i<boardSize**2; i++) {
-        boardArray.push(i);
-    }
-    
-    // Set coordinates for board to reference off of
-    for (let i=0; i<boardSize; i++) {
-        for (let j=0; j<boardSize; j++) {
-            tileCoord.push([j, i]);
-        }
-    }
-
+function newGame() {
+    scrambleEnabled = true;
     if (scrambleEnabled) {
         scrambleBoard();
         scrambleEnabled = false;
     }
     resetTileEvents();
+}
+
+function toggleTileDisplay() {
+    enableImageTiles = enableImageTiles ? false : true;
+    resetTileEvents();
+}
+
+function difficultyAdjust(size) {
+    boardSize=size;
+    setupGame();
+    newGame();
+}
+
+function main() {
+    setupGame();
+    newGame();
 }
 main();
 
