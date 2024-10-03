@@ -10,7 +10,7 @@ let tileCoord = [];
 
 const scrambleIteration = 250;
 let scrambleEnabled = false;
-let enableImageTiles = false;
+let enableImageTiles = true;
 
 function scrambleBoard() {
     for (let i=0; i<scrambleIteration; i++) {
@@ -31,9 +31,14 @@ function scrambleBoard() {
 // Use image tiles rather than numbers
 function loadImage(tile_id) {
     const tile_number = parseInt(tile_id.split("_")[1]) - 1;
-    if (tile_number === boardArray.length - 1) return;
-
     const tile = document.querySelector('#' + tile_id);
+    
+    if (tile_number === boardArray.length - 1) {
+        // Add textContent to prevent dimension issues with empty tile
+        tile.textContent = "";
+        return;
+    }
+
     const canvas = tile.firstChild;
     const ctx = canvas.getContext('2d');
 
@@ -166,7 +171,7 @@ function adjacentTiles() {
         rightTile = -1;
     }
 
-    console.log("Left:", leftTile, "Right:", rightTile, "Up:", upTile, "Down:", downTile);
+    //console.log("Left:", leftTile, "Right:", rightTile, "Up:", upTile, "Down:", downTile);
 
     return [leftTile, rightTile, upTile, downTile];
 }
@@ -190,7 +195,7 @@ function swapTiles(clickedTileIndex) {
     [boardArray[emptyTileIndex], boardArray[clickedTileIndex]] = 
         [boardArray[clickedTileIndex], boardArray[emptyTileIndex]];
 
-    printBoardArray();
+    //printBoardArray();
 
     if (scrambleEnabled) return;
 
@@ -198,12 +203,10 @@ function swapTiles(clickedTileIndex) {
 }
 
 function checkSolved() {
-    printBoardArray();
     let emptyTileIndex = boardArray.indexOf(boardArray.length - 1);
     if (emptyTileIndex != (boardArray.length - 1)) return;
 
     for (let tileNumber=0; tileNumber<boardArray.length; tileNumber++) {
-        // console.log(boardArray.length, tileNumber, boardArray[tileNumber]);
         if (tileNumber != boardArray[tileNumber]) {
             return false;
         }
