@@ -200,23 +200,24 @@ function swapTiles(clickedTileIndex) {
 function checkSolved() {
     printBoardArray();
     let emptyTileIndex = boardArray.indexOf(boardArray.length - 1);
-    if (emptyTileIndex === (boardArray.length - 1)) {
-        for (let tileNumber=0; tileNumber<boardArray.length; tileNumber++) {
-            console.log(boardArray.length, tileNumber, boardArray[tileNumber]);
-            if (tileNumber != boardArray[tileNumber]) {
-                return false;
-            }
+    if (emptyTileIndex != (boardArray.length - 1)) return;
+
+    for (let tileNumber=0; tileNumber<boardArray.length; tileNumber++) {
+        // console.log(boardArray.length, tileNumber, boardArray[tileNumber]);
+        if (tileNumber != boardArray[tileNumber]) {
+            return false;
         }
     }
+    
     return true;
 }
 
 function resetTileEvents() {
     refreshBoard();
 
-    // if (checkSolved()) {
-    //     console.log("Puzzle Solved");
-    // }
+    if (checkSolved()) {
+        console.log("Puzzle Solved");
+    }
 
     moves = adjacentTiles();
     enableTiles(moves);
