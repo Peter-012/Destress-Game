@@ -1,12 +1,16 @@
 let board = document.querySelector('#board');
 
-let boardSize = 3;
+const imagePath = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
+//const imagePath = "assets/imgdestress.jpg"
+//const imagePath = "C:/Users/Peter L/Desktop/Github/Destress-Game/assets/imgdestress.jpg"
+
+let boardSize = 4;
 let boardArray = [];
 let tileCoord = [];
 
-let scrambleEnabled = true;
 const scrambleIteration = 250;
-let enableImageTiles = true;
+let scrambleEnabled = false;
+let enableImageTiles = false;
 
 function scrambleBoard() {
     for (let i=0; i<scrambleIteration; i++) {
@@ -30,13 +34,11 @@ function loadImage(tile_id) {
     if (tile_number === boardArray.length - 1) return;
 
     const tile = document.querySelector('#' + tile_id);
-    tile.style.margin = '1px'
-
     const canvas = tile.firstChild;
     const ctx = canvas.getContext('2d');
 
     const image = new Image();
-    image.src = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
+    image.src = imagePath;
     let imageWidth = image.width;
     let imageHeight = image.height;
 
@@ -75,14 +77,16 @@ function loadNumber(tile_id) {
     tile.textContent = tile_number + 1;
     tile.style.backgroundColor = 'rgba(145, 6, 110, 0.434)';
     tile.style.border = '1px solid'
-    tile.style.margin = '1px'
 }
 
 // Print board array [For debugging]
 function printBoardArray() {
     let output = ""
     for (i=0; i<boardArray.length; i++) {
-        output += boardArray[i] + " ";
+        if (boardArray[i] === 15)
+            output += "_" + " ";
+        else
+            output += (boardArray[i] + 1) + " ";
     }
     console.log(output);
 }
@@ -106,6 +110,7 @@ function refreshBoard() {
         tile.id = "tile_" + number;
         board.append(tile);
 
+        // Canvas used to load image tiles
         const canvas = document.createElement('canvas');
         canvas.classList.add('canvas');
         tile.append(canvas);
@@ -149,23 +154,22 @@ function adjacentTiles() {
 
 // Enable click function for movable adjacent tiles
 function enableTiles(moves) {
-    for (i=0;i<boardSize;i++) {
+    for (i=0;i<moves.length;i++) {
         // Ignore invalid moves
         if (moves[i] == -1) continue;
 
         let tile_id = '#tile_' + (parseInt(moves[i]) + 1);
         const moveableTile = document.querySelector(tile_id);
 
-        moveableTile.addEventListener('click', function() {
+        moveableTile.setAttribute('click', function() {
             clickedTile = parseInt(moveableTile.id.split("_")[1]) - 1;
             clickedTileIndex = boardArray.indexOf(clickedTile);
-            console.log(clickedTile, clickedTileIndex);
             swapTiles(clickedTileIndex);
         });
-        moveableTile.addEventListener('mouseover', function() {
+        moveableTile.setAttribute('mouseover', function() {
             moveableTile.style.cursor = "pointer";
         });
-        moveableTile.addEventListener('mouseout', function() {
+        moveableTile.setAttribute('mouseout', function() {
             moveableTile.style.cursor = "default";
         });
     }
@@ -184,11 +188,30 @@ function swapTiles(clickedTileIndex) {
 
     if (scrambleEnabled) return;
 
-    resetTiles();
+    resetTileEvents();
 }
 
-function resetTiles() {
+function checkSolved() {
+    printBoardArray();
+    let emptyTileIndex = boardArray.indexOf(boardArray.length - 1);
+    if (emptyTileIndex === (boardArray.length - 1)) {
+        for (let tileNumber=0; tileNumber<boardArray.length; tileNumber++) {
+            console.log(boardArray.length, tileNumber, boardArray[tileNumber]);
+            if (tileNumber != boardArray[tileNumber]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function resetTileEvents() {
     refreshBoard();
+
+    // if (checkSolved()) {
+    //     console.log("Puzzle Solved");
+    // }
+
     moves = adjacentTiles();
     enableTiles(moves);
 }
@@ -213,10 +236,18 @@ function main() {
         scrambleBoard();
         scrambleEnabled = false;
     }
-    resetTiles();
+    resetTileEvents();
 }
 main();
 
 // Notes:
 // Determine which tiles can be selected (tiles around #tile_0)
 // arr[X*(cols)+Y]
+
+
+
+
+//TODO:
+//Fix formating of tiles - too long on las row
+//Lazy loading
+//Event listener cannot reset

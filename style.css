@@ -1,6 +1,7 @@
 :root {
     --tile-length-count: 4;
     --board-width: 400px;
+    /* --tile-width: calc(var(--game-board-width) / var(--tile-length-count) + var(--tile-length-count) - 1); */
     --tile-width: calc(var(--game-board-width) / var(--tile-length-count));
 }
 
@@ -30,6 +31,7 @@ body {
 .tile {
     width: var(--tile-width);
     height: var(--tile-width);
+    margin: 1px;
     
     /*Center Tile Number*/
     display: flex;
