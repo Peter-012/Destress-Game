@@ -120,6 +120,19 @@ function refreshBoard() {
         } else {
             loadNumber(tile.id);
         }
+
+        tile.addEventListener('click', function() {
+            clickedTile = parseInt(tile.id.split("_")[1]) - 1;
+            clickedTileIndex = boardArray.indexOf(clickedTile);
+            swapTiles(clickedTileIndex);
+        });
+        tile.addEventListener('mouseover', function() {
+            tile.style.cursor = "pointer";
+        });
+        tile.addEventListener('mouseout', function() {
+            tile.style.cursor = "default";
+        });
+        tile.style.pointerEvents = 'none';
     }
 }
 
@@ -158,20 +171,9 @@ function enableTiles(moves) {
         // Ignore invalid moves
         if (moves[i] == -1) continue;
 
-        let tile_id = '#tile_' + (parseInt(moves[i]) + 1);
+        let tile_id = '#tile_' + (boardArray[moves[i]] + 1);
         const moveableTile = document.querySelector(tile_id);
-
-        moveableTile.setAttribute('click', function() {
-            clickedTile = parseInt(moveableTile.id.split("_")[1]) - 1;
-            clickedTileIndex = boardArray.indexOf(clickedTile);
-            swapTiles(clickedTileIndex);
-        });
-        moveableTile.setAttribute('mouseover', function() {
-            moveableTile.style.cursor = "pointer";
-        });
-        moveableTile.setAttribute('mouseout', function() {
-            moveableTile.style.cursor = "default";
-        });
+        moveableTile.style.pointerEvents = 'auto';
     }
 }
 
