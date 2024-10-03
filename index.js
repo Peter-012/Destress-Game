@@ -71,9 +71,14 @@ function loadImage(tile_id) {
 // Use number tiles instead of images for tiles
 function loadNumber(tile_id) {
     const tile_number = parseInt(tile_id.split("_")[1]) - 1;
-    if (tile_number === boardArray.length - 1) return;
-
     const tile = document.querySelector('#' + tile_id);
+
+    if (tile_number === boardArray.length - 1) {
+        // Add textContent to prevent dimension issues with empty tile
+        tile.textContent = "";
+        return;
+    }
+
     tile.textContent = tile_number + 1;
     tile.style.backgroundColor = 'rgba(145, 6, 110, 0.434)';
     tile.style.border = '1px solid'
@@ -132,6 +137,7 @@ function refreshBoard() {
         tile.addEventListener('mouseout', function() {
             tile.style.cursor = "default";
         });
+        
         tile.style.pointerEvents = 'none';
     }
 }
@@ -180,8 +186,6 @@ function enableTiles(moves) {
 // If tile is selected, swap tile with blank tile space
 function swapTiles(clickedTileIndex) {
     let emptyTileIndex = boardArray.indexOf(boardArray.length - 1);
-    
-    console.log("Empty:", emptyTileIndex, "Clicked:", clickedTileIndex);
 
     [boardArray[emptyTileIndex], boardArray[clickedTileIndex]] = 
         [boardArray[clickedTileIndex], boardArray[emptyTileIndex]];
