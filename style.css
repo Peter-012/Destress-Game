@@ -1,7 +1,22 @@
 :root {
     --tile-length-count: 4;
-    --board-width: 350px;
+
+    --board-width: 70vw;
     --tile-width: calc(var(--game-board-width) / var(--tile-length-count));
+    --tile-border-radius: 5%;
+
+    --site-background: rgba(57, 1, 43, 0.434);
+    --tile-color: rgba(145, 6, 110, 0.434);
+    --button-default-color: rgba(145, 6, 110, 0.434);
+    --button-hover-color: rgba(145, 6, 110, 0.434);
+
+    --title-font-size: 70px;    
+    --button-font-size: 25px;
+    --tile-font-size: 50px;
+
+    --button-padding: 15px;
+
+    --section-margin: 70px;
 }
 
 * {
@@ -15,12 +30,33 @@ html {
 }
 
 body {
+    background-color: var(--site-background);
+    margin: var(--section-margin);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+h1 {
+    font-size: var(--title-font-size);
+}
+
+button {
+    border: 0;
+    background-color: var(--button-default-color);
+    padding: var(--button-font-size);
+    font-size: var(--button-font-size);
+}
+
+.section {
+    margin-top: var(--section-margin);
+    width: var(--board-width);
+    display: flex;
+    justify-content: space-between;
+}
+
 #board {
+    margin-top: var(--section-margin);
     display: grid;
     grid-template-columns: repeat(var(--tile-length-count), 1fr);
     width: var(--board-width);
@@ -28,6 +64,7 @@ body {
 }
 
 .tile {
+    border-radius: var(--tile-border-radius);
     width: var(--tile-width);
     height: var(--tile-width);
     margin: 1px;
@@ -36,11 +73,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: var(--tile-font-size);
     cursor: default;
 }
 
 .canvas {
+    border-radius: var(--tile-border-radius);;
     width: 100%;
     height: 100%;
 }

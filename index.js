@@ -1,16 +1,16 @@
 let board = document.querySelector('#board');
 
-const imagePath = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
-//const imagePath = "assets/imgdestress.jpg"
-//const imagePath = "C:/Users/Peter L/Desktop/Github/Destress-Game/assets/imgdestress.jpg"
+const image = new Image();
+let imagePath = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
+imagePath = "assets/imgdestress.jpg"
 
 let boardSize = 4;
 let boardArray = [];
 let tileCoord = [];
 
 const scrambleIteration = 250;
-let scrambleEnabled = true;
-let enableImageTiles = true;
+let scrambleEnabled = false;
+let enableImageTiles = false;
 
 function setupGame() {
     // CSS - Set dimension of puzzle
@@ -47,6 +47,10 @@ function scrambleBoard() {
     }
 }
 
+function setupImage() {
+    image.src = imagePath;
+}
+
 // Use image tiles rather than numbers
 function loadImage(tile_id) {
     const tile_number = parseInt(tile_id.split("_")[1]) - 1;
@@ -61,8 +65,6 @@ function loadImage(tile_id) {
     const canvas = tile.firstChild;
     const ctx = canvas.getContext('2d');
 
-    const image = new Image();
-    image.src = imagePath;
     let imageWidth = image.width;
     let imageHeight = image.height;
 
@@ -104,7 +106,7 @@ function loadNumber(tile_id) {
     }
 
     tile.textContent = tile_number + 1;
-    tile.style.backgroundColor = 'rgba(145, 6, 110, 0.434)';
+    tile.style.backgroundColor = 'var(--tile-color)';
     tile.style.border = '1px solid'
 }
 
@@ -246,11 +248,14 @@ function resetTileEvents() {
 }
 
 function newGame() {
+    setupImage();
+
     scrambleEnabled = true;
     if (scrambleEnabled) {
         scrambleBoard();
         scrambleEnabled = false;
     }
+
     resetTileEvents();
 }
 
@@ -271,14 +276,6 @@ function main() {
 }
 main();
 
-// Notes:
-// Determine which tiles can be selected (tiles around #tile_0)
-// arr[X*(cols)+Y]
-
-
-
-
 //TODO:
-//Fix formating of tiles - too long on las row
-//Lazy loading
-//Event listener cannot reset
+//Lazy loading tile image
+//UI Frontend

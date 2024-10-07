@@ -8,16 +8,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>15 Puzzle</h1>
+
+    <div class="section">
+        <button onclick="newGame()">New Game</button>
+        <button onclick="toggleTileDisplay()">Toggle Tile Numbers</button>
+    </div>
+
     <div id="board"></div>
 
-    <button onclick="newGame()">New Game</button>
-    <button onclick="toggleTileDisplay()">Toggle Tile Numbers</button>
-
-    <button onclick="difficultyAdjust(3)">Easy (3x3)</button>
-    <button onclick="difficultyAdjust(4)">Medium (4x4)</button>
-    <button onclick="difficultyAdjust(5)">Hard (5x5)</button>
-
-
+    <div class="section">
+        <button onclick="difficultyAdjust(3)">Easy (3x3)</button>
+        <button onclick="difficultyAdjust(4)">Medium (4x4)</button>
+        <button onclick="difficultyAdjust(5)">Hard (5x5)</button>    
+    </div>
+    
     <script src="index.js"></script>
 </body>
 </html>
