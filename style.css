@@ -1,21 +1,22 @@
 :root {
     --tile-length-count: 4;
 
-    --board-width: 70vw;
+    --board-width: 35vw;
+
+    --tile-color: rgba(0, 0, 0, 0.2);
     --tile-width: calc(var(--game-board-width) / var(--tile-length-count));
+    --tile-border: 1px solid black;
     --tile-border-radius: 5%;
-
-    --site-background: rgba(57, 1, 43, 0.434);
-    --tile-color: rgba(145, 6, 110, 0.434);
-    --button-default-color: rgba(145, 6, 110, 0.434);
-    --button-hover-color: rgba(145, 6, 110, 0.434);
-
-    --title-font-size: 70px;    
-    --button-font-size: 25px;
     --tile-font-size: 50px;
-
+    
     --button-padding: 15px;
+    --button-border-radius: 0%;
+    --button-font-size: 25px;
 
+    --site-background: linear-gradient(#792082, #7474c1);
+    --site-font-family: Arial;
+    --text-color: white;
+    --title-font-size: 70px;   
     --section-margin: 70px;
 }
 
@@ -30,7 +31,8 @@ html {
 }
 
 body {
-    background-color: var(--site-background);
+    background-image: var(--site-background);
+    font-family: var(--site-font-family);
     margin: var(--section-margin);
     display: flex;
     flex-direction: column;
@@ -38,12 +40,15 @@ body {
 }
 
 h1 {
+    color: var(--text-color);
     font-size: var(--title-font-size);
 }
 
 button {
     border: 0;
-    background-color: var(--button-default-color);
+    background-color: rgba(0, 0, 0, 0.25);
+    color: var(--text-color);
+    border-radius: var(--button-border-radius);
     padding: var(--button-font-size);
     font-size: var(--button-font-size);
 }
@@ -64,6 +69,7 @@ button {
 }
 
 .tile {
+    color: var(--text-color);
     border-radius: var(--tile-border-radius);
     width: var(--tile-width);
     height: var(--tile-width);

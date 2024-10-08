@@ -4,7 +4,7 @@ const image = new Image();
 let imagePath = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
 imagePath = "assets/imgdestress.jpg"
 
-let boardSize = 4;
+let boardSize = 3;
 let boardArray = [];
 let tileCoord = [];
 
@@ -107,7 +107,7 @@ function loadNumber(tile_id) {
 
     tile.textContent = tile_number + 1;
     tile.style.backgroundColor = 'var(--tile-color)';
-    tile.style.border = '1px solid'
+    tile.style.border = 'var(--tile-border)'
 }
 
 // Print board array [For debugging]
@@ -279,3 +279,11 @@ main();
 //TODO:
 //Lazy loading tile image
 //UI Frontend
+//dark/light mode
+// help button or guide to play
+//accessibility on colours
+//image change button
+//add footer
+//lock overflow
+// responsive design (width height and text size media query)
+
