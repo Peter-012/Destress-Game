@@ -1,15 +1,16 @@
 let board = document.querySelector('#board');
 
 const image = new Image();
-let imagePath = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
-imagePath = "assets/imgdestress.jpg"
+//let imagePath = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
+let imagePath = "assets/";
+const imageCount = 10;
 
 let boardSize = 3;
 let boardArray = [];
 let tileCoord = [];
 
 const scrambleIteration = 250;
-let scrambleEnabled = false;
+let scrambleEnabled;
 let enableImageTiles = false;
 
 function setupGame() {
@@ -48,7 +49,8 @@ function scrambleBoard() {
 }
 
 function setupImage() {
-    image.src = imagePath;
+    let i = Math.floor(Math.random() * imageCount) + 1;
+    image.src = imagePath + i.toString() + ".jpg";
 }
 
 // Use image tiles rather than numbers
