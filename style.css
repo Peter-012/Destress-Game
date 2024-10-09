@@ -2,21 +2,30 @@
     --tile-length-count: 4;
 
     --board-width: 35vw;
+    /* --board-width: 50svh; */
+    /* font size and div size: use rems */
 
-    --tile-color: rgba(0, 0, 0, 0.2);
-    --tile-width: calc(var(--game-board-width) / var(--tile-length-count));
-    --tile-border: 1px solid black;
+    --tile-background: rgba(255, 255, 255, 0.12);
+    --tile-border: 1px solid rgba(255, 255, 255, 0.3);
     --tile-border-radius: 5%;
+    --tile-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    --tile-width: calc(var(--game-board-width) / var(--tile-length-count));
     --tile-font-size: 50px;
     
     --button-padding: 15px;
-    --button-border-radius: 0%;
+    --button-border-radius: 10em;
     --button-font-size: 25px;
+    --button-background: rgba(255, 255, 255, 0.15);
+    --button-border: 1px solid rgba(255, 255, 255, 0.3);
+    --button-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 
     --site-background: linear-gradient(#792082, #7474c1);
     --site-font-family: Arial;
-    --text-color: white;
+    --text-color: rgba(255, 255, 255, 1);
+
     --title-font-size: 70px;   
+    --title-text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+
     --section-margin: 70px;
 }
 
@@ -42,15 +51,18 @@ body {
 h1 {
     color: var(--text-color);
     font-size: var(--title-font-size);
+    text-shadow: var(--title-text-shadow);
 }
 
 button {
-    border: 0;
-    background-color: rgba(0, 0, 0, 0.25);
-    color: var(--text-color);
+    background: var(--button-background);
+    border: var(--button-border);
     border-radius: var(--button-border-radius);
+    box-shadow: var(--button-box-shadow);
     padding: var(--button-font-size);
+    color: var(--text-color);
     font-size: var(--button-font-size);
+    cursor: pointer;
 }
 
 .section {
@@ -73,9 +85,8 @@ button {
     border-radius: var(--tile-border-radius);
     width: var(--tile-width);
     height: var(--tile-width);
-    margin: 1px;
+    margin: 3px;
     
-    /*Center Tile Number*/
     display: flex;
     justify-content: center;
     align-items: center;

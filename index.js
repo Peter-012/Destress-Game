@@ -106,8 +106,9 @@ function loadNumber(tile_id) {
     }
 
     tile.textContent = tile_number + 1;
-    tile.style.backgroundColor = 'var(--tile-color)';
-    tile.style.border = 'var(--tile-border)'
+    tile.style.background = 'var(--tile-background)';
+    tile.style.border = 'var(--tile-border)';
+    tile.style.boxShadow = 'var(--tile-box-shadow)';
 }
 
 // Print board array [For debugging]
