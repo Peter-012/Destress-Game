@@ -1,7 +1,6 @@
 let board = document.querySelector('#board');
 
 const image = new Image();
-//let imagePath = "https://mdn.github.io/shared-assets/images/examples/rhino.jpg";
 let imagePath = "assets/";
 const imageCount = 10;
 
@@ -251,6 +250,7 @@ function resetTileEvents() {
 }
 
 function newGame() {
+    enableImageTiles = false;
     setupImage();
 
     scrambleEnabled = true;
