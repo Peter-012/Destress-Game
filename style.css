@@ -26,6 +26,9 @@
     --title-font-size: 70px;
     --title-text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 
+    --p-font-size: 20px;   
+    --p-text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+
     --section-margin: 70px;
 }
 
@@ -49,10 +52,21 @@ body {
     align-items: center;
 }
 
+footer {
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
 h1 {
     color: var(--text-color);
     font-size: var(--title-font-size);
     text-shadow: var(--title-text-shadow);
+}
+
+p {
+    color: var(--text-color);
+    font-size: var(--p-font-size);
+    text-shadow: var(--p-text-shadow);
 }
 
 button {
