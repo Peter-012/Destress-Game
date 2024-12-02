@@ -247,6 +247,7 @@ function resetTileEvents() {
 
 function newGame() {
     enableImageTiles = false;
+    toggleTile.textContent = "Show Tile Images";
     setupImage();
 
     scrambleEnabled = true;
@@ -259,7 +260,11 @@ function newGame() {
 }
 
 function toggleTileDisplay() {
+    const toggleTile = document.querySelector('#toggleTile');
+
+    toggleTile.textContent = enableImageTiles ? "Show Tile Images" : "Show Tile Numbers";
     enableImageTiles = enableImageTiles ? false : true;
+
     resetTileEvents();
 }
 
