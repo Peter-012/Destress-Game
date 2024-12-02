@@ -227,7 +227,7 @@ function swapTiles(clickedTileIndex) {
 
 function checkSolved() {
     let emptyTileIndex = boardArray.indexOf(boardArray.length - 1);
-    if (emptyTileIndex != (boardArray.length - 1)) return;
+    if (emptyTileIndex != (boardArray.length - 1)) return false;
 
     for (let tileNumber=0; tileNumber<boardArray.length; tileNumber++) {
         if (tileNumber != boardArray[tileNumber]) {
@@ -265,7 +265,7 @@ function toggleTileDisplay() {
 
 function difficultyAdjust(size) {
     if (boardSize === size) return;
-    
+
     boardSize=size;
     setupGame();
     newGame();
@@ -278,13 +278,7 @@ function main() {
 main();
 
 //TODO:
-//Lazy loading tile image
-//UI Frontend
-//dark/light mode
+// Lazy loading tile image
 // help button or guide to play
-//accessibility on colours
-//image change button
-//add footer
-//lock overflow
-// responsive design (width height and text size media query)
-
+// dark/light mode
+// accessibility on colours
