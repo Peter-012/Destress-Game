@@ -1,8 +1,7 @@
 :root {
     --tile-length-count: 4;
 
-    --board-width: 35vw;
-    /* --board-width: 50svh; */
+    --board-width: min(550px, 90vw);
     /* font size and div size: use rems */
 
     --tile-background: rgba(255, 255, 255, 0.12);
@@ -14,16 +13,17 @@
     
     --button-padding: 15px;
     --button-border-radius: 10em;
-    --button-font-size: 25px;
+    --button-font-size: 20px;
     --button-background: rgba(255, 255, 255, 0.15);
     --button-border: 1px solid rgba(255, 255, 255, 0.3);
     --button-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    --button-flex-gap: 20px;
 
     --site-background: linear-gradient(#792082, #7474c1);
     --site-font-family: Arial;
     --text-color: rgba(255, 255, 255, 1);
 
-    --title-font-size: 70px;   
+    --title-font-size: 70px;
     --title-text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 
     --section-margin: 70px;
@@ -40,6 +40,7 @@ html {
 }
 
 body {
+    height: 115svh;
     background-image: var(--site-background);
     font-family: var(--site-font-family);
     margin: var(--section-margin);
@@ -70,9 +71,11 @@ button {
     width: var(--board-width);
     display: flex;
     justify-content: space-between;
+    gap: var(--button-flex-gap);
 }
 
 #board {
+    aspect-ratio : 1 / 1;
     margin-top: var(--section-margin);
     display: grid;
     grid-template-columns: repeat(var(--tile-length-count), 1fr);
@@ -81,6 +84,7 @@ button {
 }
 
 .tile {
+    aspect-ratio : 1 / 1;
     color: var(--text-color);
     border-radius: var(--tile-border-radius);
     width: var(--tile-width);
@@ -95,7 +99,14 @@ button {
 }
 
 .canvas {
-    border-radius: var(--tile-border-radius);;
+    border-radius: var(--tile-border-radius);
     width: 100%;
     height: 100%;
 }
+
+@media only screen and (max-width: 768px) {
+    .section {
+        flex-direction: column;
+        gap: 15px;
+    }
+} 
