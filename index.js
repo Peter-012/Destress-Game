@@ -240,11 +240,7 @@ function checkSolved() {
 
 function resetTileEvents() {
     refreshBoard();
-
-    if (checkSolved()) {
-        console.log("Puzzle Solved");
-    }
-
+    if (checkSolved()) return;
     moves = adjacentTiles();
     enableTiles(moves);
 }
@@ -268,6 +264,8 @@ function toggleTileDisplay() {
 }
 
 function difficultyAdjust(size) {
+    if (boardSize === size) return;
+    
     boardSize=size;
     setupGame();
     newGame();
